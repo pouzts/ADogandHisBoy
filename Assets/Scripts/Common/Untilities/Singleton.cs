@@ -43,7 +43,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
         // if instance is null
         if (instance == null)
         {
-            // set the instance to this
+            // set the instance to this as T
             instance = this as T;
             // don't destroy game object on load
             DontDestroyOnLoad(gameObject);
