@@ -14,7 +14,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
     private static T instance;
 
     public static T Instance 
-    { 
+    {
         get 
         {
             // if instance is null
@@ -27,6 +27,7 @@ public class Singleton<T> : MonoBehaviour where T : Component
                 if (instance == null )
                 {
                     // create a game object with T component
+                    // set the name to the type of T's name
                     GameObject obj = new(){ name = typeof(T).Name };
                     // add the T component
                     instance = obj.AddComponent<T>();
