@@ -4,15 +4,36 @@ using UnityEngine;
 
 public class StateMachine : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public Dictionary<State, KeyValuePair<Transition, State>> stateTransitions;
+    public State CurrentState { get; private set; }
 
-    // Update is called once per frame
     void Update()
     {
-        
+        if (CurrentState != null)
+            return;
+
+        var transitions = stateTransitions[CurrentState];
+
+        CurrentState.OnUpdate();
+    }
+
+    public void SetState(State state) 
+    {
+        if (CurrentState == state || state == null)
+            return;
+
+        CurrentState?.OnExit();
+        CurrentState = state;
+        CurrentState.OnEnter();
+    }
+
+    public State GetState(string name) 
+    {
+        return null;
+    }
+
+    public string GetStateName()
+    { 
+        return CurrentState?.Name;
     }
 }

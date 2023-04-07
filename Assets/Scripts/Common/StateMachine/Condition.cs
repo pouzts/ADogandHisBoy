@@ -12,7 +12,12 @@ public enum Predicate
     Greater
 }
 
-public class Condition<T> where T : struct, IComparable<T>
+public abstract class Condition 
+{ 
+    public abstract bool IsTrue();
+}
+
+public class Condition<T> : Condition where T : struct, IComparable<T>
 {
     private readonly RefValue<T> refValue;
     private readonly T value;
@@ -25,7 +30,7 @@ public class Condition<T> where T : struct, IComparable<T>
         this.predicate = predicate;
     }
 
-    public bool IsTrue() 
+    public override bool IsTrue() 
     {
         switch (predicate)
         {

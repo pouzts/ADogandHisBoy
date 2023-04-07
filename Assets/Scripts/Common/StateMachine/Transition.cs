@@ -3,16 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Transition<T> where T : struct, IComparable<T>
+public class Transition
 {
-    private readonly State stateFrom;
-    private readonly Condition<T>[] conditions;
-    private readonly State stateTo;
+    private readonly Condition[] conditions;
 
-    public Transition(State stateFrom, State stateTo, params Condition<T>[] conditions)
+    public Transition(params Condition[] conditions)
     { 
-        this.stateFrom = stateFrom;
         this.conditions = conditions;
-        this.stateTo = stateTo;
+    }
+
+    public bool CheckConditions()
+    { 
+        foreach (var condition in conditions) 
+        {
+            if (!condition.IsTrue())
+                return false;
+        }
+
+        return true;
     }
 }
