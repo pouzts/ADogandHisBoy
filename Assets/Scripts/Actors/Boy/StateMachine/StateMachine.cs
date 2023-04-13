@@ -2,14 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class StateMachine
 {
     public State CurrentState { get; private set; }
     private readonly Dictionary<State, List<KeyValuePair<Transition, State>>> stateTransitions = new();
 
-    private void Update()
+    public void OnUpdate()
     {
-        if (CurrentState != null)
+        if (CurrentState == null)
             return;
 
         var transitions = stateTransitions[CurrentState];

@@ -12,25 +12,25 @@ public class Player : MonoBehaviour
     private CharacterController characterController;
     private Vector3 direction = Vector3.zero;
 
-    private float turnVelcoity;
+    private float turnVelcoity = 0f;
 
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (characterController == null || cameraTransform == null)
             return;
 
         if (direction.magnitude >= 0.1f) { 
-            float targetAngle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
             float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnVelcoity, smoothTurnTime);
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
             Vector3 dir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            characterController.Move(speed * Time.fixedDeltaTime * dir);
+            characterController.Move(speed * Time.deltaTime * dir.normalized);
         }
     }
 

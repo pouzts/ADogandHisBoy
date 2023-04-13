@@ -6,7 +6,7 @@ using UnityEngine;
 [Serializable]
 public class RefValue<T> where T : struct
 {
-    public T Value { get; private set; }
+    public T value;
 
-    public static implicit operator T(RefValue<T> refValue) { return refValue.Value; }
+    public static implicit operator T(RefValue<T> refValue) { return refValue.value; }
 }

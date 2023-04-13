@@ -20,14 +20,14 @@ public abstract class Condition
 public class Condition<T> : Condition where T : struct, IComparable<T>
 {
     private readonly RefValue<T> refValue;
-    private readonly T value;
     private readonly Predicate predicate;
+    private readonly T value;
 
-    public Condition(RefValue<T> refValue, T value, Predicate predicate)
+    public Condition(RefValue<T> refValue, Predicate predicate, T value)
     {
         this.refValue = refValue;
-        this.value = value;
         this.predicate = predicate;
+        this.value = value;
     }
 
     public override bool IsTrue() 
@@ -35,15 +35,15 @@ public class Condition<T> : Condition where T : struct, IComparable<T>
         switch (predicate)
         {
             case Predicate.Less:
-                return refValue.Value.CompareTo(value) < 0;
+                return refValue.value.CompareTo(value) < 0;
             case Predicate.LessOrEqual:
-                return refValue.Value.CompareTo(value) <= 0;
+                return refValue.value.CompareTo(value) <= 0;
             case Predicate.Equal:
-                return refValue.Value.CompareTo(value) == 0;
+                return refValue.value.CompareTo(value) == 0;
             case Predicate.GreaterOrEqual:
-                return refValue.Value.CompareTo(value) >= 0;
+                return refValue.value.CompareTo(value) >= 0;
             case Predicate.Greater:
-                return refValue.Value.CompareTo(value) > 0;
+                return refValue.value.CompareTo(value) > 0;
             default:
                 return false;
         }
