@@ -4,12 +4,9 @@ using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 
 public class IdleState : State
-{
-    private readonly Agent agent;
-    
-    public IdleState(string name, Agent agent) : base(name)
+{   
+    public IdleState(string name, Agent agent) : base(name, agent)
     {
-        this.agent = agent;
     }
 
     public override void OnEnter()
@@ -24,6 +21,6 @@ public class IdleState : State
 
     public override void OnUpdate()
     {
-        agent.transform.LookAt(agent.player.transform);
+        Agent.transform.LookAt(Agent.player.transform);
     }
 }

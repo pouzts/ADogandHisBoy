@@ -1,14 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class FollowState : State
 {
-    private Agent agent;
-
-    public FollowState(string name, Agent agent) : base(name)
+    public FollowState(string name, Agent agent) : base(name, agent)
     {
-        this.agent = agent;
     }
 
     public override void OnEnter()
@@ -23,6 +22,6 @@ public class FollowState : State
 
     public override void OnUpdate()
     {
-        agent.transform.position = Vector3.MoveTowards(agent.transform.position, agent.player.transform.position, 0.1f);
+        Agent.NavMeshAgent.destination = Agent.player.transform.position;
     }
 }

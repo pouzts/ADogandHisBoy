@@ -1,18 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class Agent : MonoBehaviour
 {
     public GameObject player;
+
     [SerializeField] private float minDistanceFromPlayer = 3f;
     [SerializeField] private RefValue<bool> followPlayer = new();
-
-    private readonly RefValue<float> distanceFromPlayer = new();
-    public StateMachine stateMachine = new();
     
+    public NavMeshAgent NavMeshAgent { get; set; }
+
+    private readonly StateMachine stateMachine = new();
+    private readonly RefValue<float> distanceFromPlayer = new();
+
     private void Start()
     {
+        NavMeshAgent = GetComponent<NavMeshAgent>();
+
         stateMachine.AddState(new IdleState("IdleState", this));
         stateMachine.AddState(new FollowState("FollowState", this));
 
@@ -24,6 +30,9 @@ public class Agent : MonoBehaviour
 
     private void Update()
     {
+        if (NavMeshAgent == null)
+            return;
+
         distanceFromPlayer.value = Vector3.Distance(transform.position, player.transform.position);
         stateMachine.OnUpdate();
     }
