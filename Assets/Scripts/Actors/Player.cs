@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 10f;
     [SerializeField] private float smoothTurnTime = 0.1f;
 
+    public bool FollowPlayer { get; set; } = false;
+    public bool StandHere { get; set; } = false;
+
     private CharacterController characterController;
     private Vector3 direction = Vector3.zero;
 
@@ -38,5 +41,11 @@ public class Player : MonoBehaviour
     {
         Vector2 inputValue = context.ReadValue<Vector2>();
         direction = new Vector3(inputValue.x, 0.0f, inputValue.y).normalized;
+    }
+
+    public void OnFollowPlayer(InputAction.CallbackContext context) 
+    {
+        if (context.performed)
+            FollowPlayer = !FollowPlayer;
     }
 }

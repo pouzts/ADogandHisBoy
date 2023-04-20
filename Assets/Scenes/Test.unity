@@ -236,10 +236,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8c40436e1b18ed4da51b8308bdc24ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 124826757}
+  player: {fileID: 124826764}
   minDistanceFromPlayer: 5
-  followPlayer:
-    value: 1
 --- !u!195 &100450747
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -250,7 +248,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 8
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -273,6 +271,7 @@ GameObject:
   - component: {fileID: 124826762}
   - component: {fileID: 124826764}
   - component: {fileID: 124826763}
+  - component: {fileID: 124826766}
   - component: {fileID: 124826765}
   - component: {fileID: 124826760}
   - component: {fileID: 124826759}
@@ -407,14 +406,6 @@ MonoBehaviour:
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: ff44375c-3bde-4d98-9491-9039d235e015
-    m_ActionName: Player/Look[/Mouse/delta]
-  - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: a84afbc8-44c6-424e-8e87-f70010b1b6d1
-    m_ActionName: Player/Fire[/Mouse/leftButton]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: 5b8c73fe-c903-40a3-b6be-405d2d54f37f
     m_ActionName: UI/Navigate[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
@@ -453,6 +444,22 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 894fc005-7595-4fa5-bcfa-7c7bb5f69c7c
     m_ActionName: UI/TrackedDeviceOrientation
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 124826764}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 164f651a-4a96-412f-b0a0-410f02ecaa46
+    m_ActionName: Player/New action
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -491,6 +498,22 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!208 &124826766
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 124826757}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 0
+  m_Extents: {x: 0.5, y: 1, z: 0.5}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &291978235
 GameObject:
   m_ObjectHideFlags: 0

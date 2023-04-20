@@ -12,16 +12,16 @@ public class FollowState : State
 
     public override void OnEnter()
     {
-        
+        Agent.NavMeshAgent.isStopped = false;
     }
 
     public override void OnExit()
     {
-        
+        Agent.NavMeshAgent.isStopped = true;
     }
 
     public override void OnUpdate()
     {
-        Agent.NavMeshAgent.destination = Agent.player.transform.position;
+        Agent.NavMeshAgent.destination = Agent.player.gameObject.transform.position;
     }
 }
