@@ -10,7 +10,7 @@ public class Agent : MonoBehaviour
     [SerializeField] private float minDistanceFromPlayer = 3f;
     
     public NavMeshAgent NavMeshAgent { get; set; }
-    public StateMachine StateMachine { get; set; }
+    public StateMachine StateMachine { get; set; } = new();
 
     private readonly RefValue<float> distanceFromPlayer = new();
     private readonly RefValue<bool> followPlayer = new();
@@ -19,7 +19,6 @@ public class Agent : MonoBehaviour
     private void Start()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
-        StateMachine = new();
 
         StateMachine.AddState(new IdleState("IdleState", this));
         StateMachine.AddState(new FollowState("FollowState", this));

@@ -8,23 +8,25 @@ public class Player : MonoBehaviour
     [SerializeField] private Transform cameraTransform;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float smoothTurnTime = 0.1f;
+    [SerializeField] private float gravity = -9.8f;
 
     public bool FollowPlayer { get; set; } = false;
     public bool StandHere { get; set; } = false;
 
-    private CharacterController characterController;
+    private Rigidbody rb;
     private Vector3 direction = Vector3.zero;
 
     private float turnVelcoity = 0f;
+    private Vector3 velocity = Vector3.zero;
 
     private void Start()
     {
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        if (characterController == null || cameraTransform == null)
+        if (rb == null || cameraTransform == null)
             return;
 
         if (direction.magnitude >= 0.1f) { 
@@ -33,7 +35,7 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
             Vector3 dir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            characterController.Move(speed * Time.deltaTime * dir.normalized);
+            rb.MovePosition(transform.position + speed * Time.fixedDeltaTime * dir.normalized);
         }
     }
 
