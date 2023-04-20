@@ -1,23 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
+    [SerializeField] private Agent agent;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float smoothTurnTime = 0.1f;
     [SerializeField] private float gravity = -9.8f;
-
-    public bool FollowPlayer { get; set; } = false;
-    public bool StandHere { get; set; } = false;
+    [SerializeField] private float jumpHeight = 1;
 
     private CharacterController controller;
+    
     private Vector3 direction = Vector3.zero;
+    private Vector3 velocity = Vector3.zero;
 
     private float turnVelcoity = 0f;
-    private Vector3 velocity = Vector3.zero;
+    private bool followPlayer = false;
 
     private void Start()
     {
@@ -26,11 +28,11 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        if (controller.isGrounded && velocity.y < 0)
-            velocity.y = 0;
-
         if (controller == null || cameraTransform == null)
             return;
+
+        if (controller.isGrounded && velocity.y < 0)
+            velocity.y = 0;
 
         if (direction.magnitude >= 0.1f) { 
             float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
@@ -55,8 +57,9 @@ public class Player : MonoBehaviour
     {
         if (context.performed)
         {
-            FollowPlayer = !FollowPlayer;
-            StandHere = false;
+            followPlayer = !followPlayer;
+            agent.FollowPlayer.value = followPlayer;
+            agent.StandHere.value = false;
         }
     }
 
@@ -64,8 +67,17 @@ public class Player : MonoBehaviour
     {
         if (context.performed)
         {
-            StandHere = !StandHere;
-            FollowPlayer = false;
+            agent.StandHere.value = true;
+            followPlayer = false;
+            agent.FollowPlayer.value = false;
+        }
+    }
+
+    public void OnJump(InputAction.CallbackContext context) 
+    {
+        if (context.performed && controller.isGrounded) 
+        {
+            velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
     }
 }

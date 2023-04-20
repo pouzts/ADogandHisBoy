@@ -15,6 +15,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "01ce0812-1c4c-4d5a-89e1-14fc9f706a11",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "FollowPlayer",
                     "type": "Button",
                     "id": "164f651a-4a96-412f-b0a0-410f02ecaa46",
@@ -24,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "New action",
+                    "name": "StandHere",
                     "type": "Button",
                     "id": "183f2716-cfe6-45af-b01b-effcaffce23e",
                     "expectedControlType": "Button",
@@ -169,7 +178,7 @@
                 {
                     "name": "",
                     "id": "b4de5bb4-8ffe-4e9d-b224-ad22c0dcd407",
-                    "path": "<Gamepad>/buttonSouth",
+                    "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
@@ -180,7 +189,7 @@
                 {
                     "name": "",
                     "id": "ac5f34cd-99c9-4fe1-8f72-bb2aa8261f77",
-                    "path": "<Keyboard>/space",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -190,12 +199,45 @@
                 },
                 {
                     "name": "",
-                    "id": "6a94298c-5533-4f20-838e-36115d6ac252",
-                    "path": "",
+                    "id": "ce26a99e-5bb3-435b-9988-8259e62eaf08",
+                    "path": "<Gamepad>/buttonWest",
                     "interactions": "",
                     "processors": "",
-                    "groups": "",
-                    "action": "New action",
+                    "groups": "Gamepad",
+                    "action": "StandHere",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a94298c-5533-4f20-838e-36115d6ac252",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "StandHere",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e155d7a7-6199-4704-b6f9-8f8758880baa",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f0e39ca9-f6cd-4004-8080-90f700734698",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -12,6 +12,7 @@ public class StandHereState : State
 
     public override void OnEnter()
     {
+        Agent.NavMeshAgent.isStopped = true;
         positionTo = Agent.player.gameObject.transform.position;
         Agent.NavMeshAgent.isStopped = false;
     }
@@ -19,15 +20,16 @@ public class StandHereState : State
     public override void OnExit()
     {
         Agent.NavMeshAgent.isStopped = true;
+        Agent.StandHere.value = false;
     }
 
     public override void OnUpdate()
     {
         Agent.NavMeshAgent.destination = positionTo;
 
-        if (Vector3.Distance(Agent.transform.position, positionTo) < 0.5f)
+        if (Vector3.Distance(Agent.transform.position, positionTo) < 0.1f)
         { 
-            Agent.StateMachine.SetState(Agent.StateMachine.GetState("IdleState"));
+            Agent.StateMachine.SetState(Agent.StateMachine.GetState("IdleState"));        
         }
     }
 }

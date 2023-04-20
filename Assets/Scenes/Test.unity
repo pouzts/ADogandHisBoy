@@ -459,6 +459,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 164f651a-4a96-412f-b0a0-410f02ecaa46
     m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 124826764}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnStandHere
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 183f2716-cfe6-45af-b01b-effcaffce23e
+    m_ActionName: Player/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 124826764}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OnJump
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 01ce0812-1c4c-4d5a-89e1-14fc9f706a11
+    m_ActionName: Player/Jump[/Keyboard/space]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -477,9 +509,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 291978238}
+  agent: {fileID: 100450746}
   speed: 10
   smoothTurnTime: 0.1
   gravity: -9.8
+  jumpHeight: 2
 --- !u!143 &124826765
 CharacterController:
   m_ObjectHideFlags: 0
