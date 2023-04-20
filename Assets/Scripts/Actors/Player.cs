@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     public bool FollowPlayer { get; set; } = false;
     public bool StandHere { get; set; } = false;
 
-    private Rigidbody rb;
+    private CharacterController controller;
     private Vector3 direction = Vector3.zero;
 
     private float turnVelcoity = 0f;
@@ -21,12 +21,15 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        controller = GetComponent<CharacterController>();
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (rb == null || cameraTransform == null)
+        if (controller.isGrounded && velocity.y < 0)
+            velocity.y = 0;
+
+        if (controller == null || cameraTransform == null)
             return;
 
         if (direction.magnitude >= 0.1f) { 
@@ -35,8 +38,11 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
             Vector3 dir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            rb.MovePosition(transform.position + speed * Time.fixedDeltaTime * dir.normalized);
+            controller.Move(speed * Time.deltaTime * dir.normalized);
         }
+
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -48,6 +54,18 @@ public class Player : MonoBehaviour
     public void OnFollowPlayer(InputAction.CallbackContext context) 
     {
         if (context.performed)
+        {
             FollowPlayer = !FollowPlayer;
+            StandHere = false;
+        }
+    }
+
+    public void OnStandHere(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            StandHere = !StandHere;
+            FollowPlayer = false;
+        }
     }
 }
