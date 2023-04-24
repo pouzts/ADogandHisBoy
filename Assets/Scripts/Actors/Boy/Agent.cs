@@ -29,7 +29,6 @@ public class Agent : MonoBehaviour
 
         StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
         StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
-        //StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(standHere, Predicate.Equal, false)), StateMachine.GetState("Idle"));
 
         StateMachine.SetState(StateMachine.GetState("IdleState"));
     }

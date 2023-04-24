@@ -21,6 +21,8 @@ public class Player : MonoBehaviour
     private float turnVelcoity = 0f;
     private bool followPlayer = false;
 
+    private bool isGrounded = false;
+
     private void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -31,7 +33,9 @@ public class Player : MonoBehaviour
         if (controller == null || cameraTransform == null)
             return;
 
-        if (controller.isGrounded && velocity.y < 0)
+        isGrounded = controller.isGrounded;
+
+        if (isGrounded && velocity.y < 0)
             velocity.y = 0;
 
         if (direction.magnitude >= 0.1f) { 
@@ -75,7 +79,7 @@ public class Player : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context) 
     {
-        if (context.performed && controller.isGrounded) 
+        if (context.started && isGrounded) 
         {
             velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
         }
