@@ -8,16 +8,27 @@ public class Lever : MonoBehaviour, IInteractable
 
     public void Activate()
     {
+        StartCoroutine(WaitForAnimation());
         activated = true;
     }
 
     public void Deactivate()
     {
+        StartCoroutine(WaitForAnimation());
         activated = false;
     }
 
     public bool IsActive()
     {
         return activated;
+    }
+
+    IEnumerator WaitForAnimation() 
+    { 
+        if (TryGetComponent(out Animator anim)) 
+        {
+            anim.SetBool("IsActived", !activated);
+            yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        }
     }
 }

@@ -21,6 +21,9 @@ public class IdleState : State
 
     public override void OnUpdate()
     {
-        Agent.transform.LookAt(Agent.player.gameObject.transform);
+        if (Agent.PlayerInSite)
+        {
+            Agent.transform.LookAt(Agent.player.gameObject.transform);
+        }
     }
 }

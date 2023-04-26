@@ -237,7 +237,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 124826764}
-  minDistanceFromPlayer: 5
+  minDistanceFromPlayer: 10
+  lookDistance: 5
+  viewAngle: 45
+  numOfCasts: 10
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!195 &100450747
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -274,9 +280,9 @@ GameObject:
   - component: {fileID: 124826765}
   - component: {fileID: 124826760}
   - component: {fileID: 124826759}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -745,7 +751,7 @@ GameObject:
   - component: {fileID: 1010576688}
   - component: {fileID: 1010576687}
   - component: {fileID: 1010576686}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Sphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
