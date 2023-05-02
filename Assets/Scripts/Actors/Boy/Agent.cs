@@ -18,27 +18,45 @@ public class Agent : MonoBehaviour
     public NavMeshAgent NavMeshAgent { get; set; }
     public StateMachine StateMachine { get; set; } = new();
 
+    public IInteractable Interactable { get; set; } = null;
+
     public bool PlayerInSite { get; set; } = false;
 
     public RefValue<bool> FollowPlayer { get; set; } = new();
     public RefValue<bool> StandHere { get; set; } = new();
+    public RefValue<bool> FindInteract { get; set; } = new();
+    public RefValue<bool> FoundInteract { get; set; } = new();
+    public RefValue<bool> Interacted { get; set; } = new();
     
     private readonly RefValue<float> distanceFromPlayer = new();
+    private readonly RefValue<bool> hasInteractive = new();
 
     private void Start()
     {
         NavMeshAgent = GetComponent<NavMeshAgent>();
 
+        // States
         StateMachine.AddState(new IdleState("IdleState", this));
         StateMachine.AddState(new FollowState("FollowState", this));
         StateMachine.AddState(new StandHereState("StandHereState", this));
+        StateMachine.AddState(new FindState("FindState", this));
+        StateMachine.AddState(new InteractState("InteractState", this));
 
-        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<float>(distanceFromPlayer, Predicate.GreaterOrEqual, minDistanceFromPlayer), new Condition<bool>(FollowPlayer, Predicate.Equal, true), new Condition<bool>(StandHere, Predicate.Equal, false)), StateMachine.GetState("FollowState"));
+        // Current -> Idle
         StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<float>(distanceFromPlayer, Predicate.Less, minDistanceFromPlayer)), StateMachine.GetState("IdleState"));
+        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(FindInteract, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
 
+        // Current -> Follow
+        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<float>(distanceFromPlayer, Predicate.GreaterOrEqual, minDistanceFromPlayer), new Condition<bool>(FollowPlayer, Predicate.Equal, true), new Condition<bool>(StandHere, Predicate.Equal, false)), StateMachine.GetState("FollowState"));
+
+        // Current -> Stand
         StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
         StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
 
+        // Current -> Find
+
+        // Find -> Interact
+        
         StateMachine.SetState(StateMachine.GetState("IdleState"));
     }
 
@@ -53,6 +71,7 @@ public class Agent : MonoBehaviour
             return;
 
         distanceFromPlayer.value = Vector3.Distance(transform.position, player.transform.position);
+        hasInteractive.value = Interactable != null;
 
         StateMachine.OnUpdate();
     }
