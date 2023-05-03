@@ -237,13 +237,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 124826764}
-  minDistanceFromPlayer: 5
-  lookDistance: 10
-  viewAngle: 45
   numOfCasts: 10
+  minDistanceFromPlayer: 5
+  playerLookDistance: 10
+  playerViewAngle: 45
   playerMask:
     serializedVersion: 2
     m_Bits: 8
+  interactViewAngle: 30
+  interactLookDistance: 1
   interactMask:
     serializedVersion: 2
     m_Bits: 0
@@ -507,7 +509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 291978238}
   agent: {fileID: 100450746}
-  speed: 10
+  speed: 20
   smoothTurnTime: 0.1
   jumpForce: 50
   groundCheck: {fileID: 711387231}
@@ -547,7 +549,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!136 &124826767
 CapsuleCollider:
