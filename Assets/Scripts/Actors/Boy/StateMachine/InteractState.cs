@@ -10,7 +10,7 @@ public class InteractState : State
 
     public override void OnEnter()
     {
-        Agent.Interactable.Activate();
+        Agent.Interactable.GetComponent<IInteractable>().Activate();
         Agent.Interacted.value = true;
     }
 

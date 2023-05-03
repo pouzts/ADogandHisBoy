@@ -20,7 +20,6 @@ public class StandHereState : State
     public override void OnExit()
     {
         Agent.NavMeshAgent.isStopped = true;
-        Agent.StandHere.value = false;
     }
 
     public override void OnUpdate()
@@ -28,8 +27,8 @@ public class StandHereState : State
         Agent.NavMeshAgent.destination = positionTo;
 
         if (Vector3.Distance(Agent.transform.position, positionTo) < 0.1f)
-        { 
-            Agent.StateMachine.SetState(Agent.StateMachine.GetState("IdleState"));        
+        {
+            Agent.StandHere.value = false;        
         }
     }
 }

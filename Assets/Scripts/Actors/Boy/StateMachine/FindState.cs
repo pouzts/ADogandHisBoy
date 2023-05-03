@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FindState : State
@@ -20,6 +21,23 @@ public class FindState : State
 
     public override void OnUpdate()
     {
-        
+        if (Vector3.Distance(Agent.transform.position, Agent.Interactable.transform.position) < 0.2f && !Agent.NavMeshAgent.isStopped) 
+        { 
+            Agent.NavMeshAgent.isStopped = true;
+        }
+
+        if (!Agent.InteractInSite) 
+        {
+
+            return;
+        }
+
+        if (Agent.InteractInSite)
+        {
+
+            return;
+        }
+
+        Agent.NavMeshAgent.SetDestination(Agent.Interactable.transform.position);
     }
 }
