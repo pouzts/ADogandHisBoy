@@ -8,12 +8,15 @@ using UnityEngine.AI;
 public class Agent : MonoBehaviour
 {
     public Player player;
-
-    [SerializeField] private float minDistanceFromPlayer = 3f;
-    [SerializeField] private float lookDistance = 10f;
-    [SerializeField] private float viewAngle = 45f;
+    
     [SerializeField] private int numOfCasts = 5;
+
+    [SerializeField] private float minDistanceFromPlayer = 10f;
+    [SerializeField] private float playerLookDistance = 10f;
+    [SerializeField] private float playerViewAngle = 45f;
     [SerializeField] private LayerMask playerMask;
+    [SerializeField] private float interactViewAngle = 30f;
+    [SerializeField] private float interactLookDistance = 1f;
     [SerializeField] private LayerMask interactMask;
     
     public NavMeshAgent NavMeshAgent { get; set; }
@@ -22,11 +25,11 @@ public class Agent : MonoBehaviour
     public GameObject Interactable { get; set; } = null;
 
     public bool PlayerInSite { get; set; } = false;
-    public bool InteractInSite { get; set; } = false;
 
     public RefValue<bool> FollowPlayer { get; set; } = new();
     public RefValue<bool> StandHere { get; set; } = new();
     public RefValue<bool> FindInteract { get; set; } = new();
+    public RefValue<bool> InteractInSite { get; set; } = new();
     public RefValue<bool> Interacted { get; set; } = new();
     
     private readonly RefValue<float> distanceFromPlayer = new();
@@ -65,15 +68,15 @@ public class Agent : MonoBehaviour
         StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(FindInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
 
         // Find -> Interact
-        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(Interacted, Predicate.Equal, true)), StateMachine.GetState("InteractState"));
+        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(Interacted, Predicate.Equal, false), new Condition<bool>(InteractInSite, Predicate.Equal, true)), StateMachine.GetState("InteractState"));
         
         StateMachine.SetState(StateMachine.GetState("IdleState"));
     }
 
     private void FixedUpdate()
     {
-        PlayerInSite = FindObjectRaycast(numOfCasts, playerMask, viewAngle, lookDistance);
-        InteractInSite = FindObjectRaycast(numOfCasts, interactMask, viewAngle, lookDistance);
+        PlayerInSite = FindObjectRaycast(numOfCasts, playerMask, playerViewAngle, playerLookDistance);
+        InteractInSite.value = FindObjectRaycast(numOfCasts, interactMask, interactViewAngle, interactLookDistance);
     }
 
     private void Update()

@@ -16,28 +16,11 @@ public class FindState : State
 
     public override void OnExit()
     {
-        
+        Agent.NavMeshAgent.isStopped = true;
     }
 
     public override void OnUpdate()
     {
-        if (Vector3.Distance(Agent.transform.position, Agent.Interactable.transform.position) < 0.2f && !Agent.NavMeshAgent.isStopped) 
-        { 
-            Agent.NavMeshAgent.isStopped = true;
-        }
-
-        if (!Agent.InteractInSite) 
-        {
-
-            return;
-        }
-
-        if (Agent.InteractInSite)
-        {
-
-            return;
-        }
-
         Agent.NavMeshAgent.SetDestination(Agent.Interactable.transform.position);
     }
 }
