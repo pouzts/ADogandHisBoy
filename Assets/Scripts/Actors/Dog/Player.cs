@@ -11,18 +11,22 @@ public class Player : MonoBehaviour
     [SerializeField] private Agent agent;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float smoothTurnTime = 0.1f;
+    
+    [Header("Physics")]
+    [SerializeField] private float gravity = -9.8f;
     [SerializeField] private float jumpForce = 5f;
-    [Header("Ground Check")]
+    [SerializeField] private float drag = 2f;
+
+    /*[Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRadius = 0.25f;
-    //[SerializeField] private float gravity = -9.8f;
-
-    //private CharacterController controller;
-    private Rigidbody rb;
+*/
+    private CharacterController controller;
+    //private Rigidbody rb;
 
     private Vector3 input = Vector3.zero;
-    //private Vector3 velocity = Vector3.zero;
+    private Vector3 velocity = Vector3.zero;
 
     private float turnVelcoity = 0f;
     private bool followPlayer = false;
@@ -31,36 +35,36 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        //controller = GetComponent<CharacterController>();
-        rb = GetComponent<Rigidbody>();
-        rb.freezeRotation = true;
+        controller = GetComponent<CharacterController>();
+        //rb = GetComponent<Rigidbody>();
+        //rb.freezeRotation = true;
     }
 
     private void FixedUpdate()
     {
-        if (rb == null || cameraTransform == null)
-            return;
-        
-        //if (controller == null || cameraTransform == null)
+        //if (rb == null || cameraTransform == null)
         //    return;
         
-        isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
+        if (controller == null || cameraTransform == null)
+            return;
+        
+        //isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
 
-        print(isGrounded);
-
-        //isGrounded = controller.isGrounded;
+        isGrounded = controller.isGrounded;
 
         //if (isGrounded && velocity.y < 0)
         //    velocity.y = 0;
 
-        if (isGrounded)
+        /*if (isGrounded)
         {
             rb.useGravity = false;
+            rb.drag = hDrag;
         }
         else
         {
             rb.useGravity = true;
-        }
+            rb.drag = vDrag;
+        }*/
 
         if (input.magnitude >= 0.1f) { 
             float targetAngle = Mathf.Atan2(input.x, input.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
@@ -68,12 +72,12 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
             Vector3 dir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            rb.AddForce(speed * Time.fixedDeltaTime * dir, ForceMode.VelocityChange);
-            //controller.Move(speed * Time.deltaTime * dir.normalized);
+            //rb.AddForce(speed * Time.fixedDeltaTime * dir, ForceMode.VelocityChange);
+            controller.Move(speed * Time.fixedDeltaTime * dir.normalized);
         }
 
-        //velocity.y += gravity * Time.deltaTime;
-        //controller.Move(velocity * Time.deltaTime);
+        velocity.y += gravity * Time.deltaTime;
+        controller.Move(velocity * Time.deltaTime);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -106,8 +110,9 @@ public class Player : MonoBehaviour
     {
         if (context.performed && isGrounded) 
         {
-            //velocity.y += Mathf.Sqrt(jumpHeight * -2 * gravity);
-            rb.AddForce(jumpForce * Time.fixedDeltaTime * Vector3.up, ForceMode.Acceleration);
+            float jump = Mathf.Sqrt(jumpForce * -2 * gravity);
+            velocity.y += jump * Time.fixedDeltaTime;
+            //rb.AddForce(jump * Vector3.up, ForceMode.Impulse);
         }
     }
 }
