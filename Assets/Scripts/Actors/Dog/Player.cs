@@ -14,19 +14,19 @@ public class Player : MonoBehaviour
     
     [Header("Physics")]
     [SerializeField] private float gravity = -9.8f;
-    [SerializeField] private float jumpForce = 5f;
-    [SerializeField] private float drag = 2f;
+    [SerializeField] private float jumpHeight = 5f;
+    [SerializeField] private Vector3 drag = Vector3.zero;
 
-    /*[Header("Ground Check")]
+    [Header("Ground Check")]
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRadius = 0.25f;
-*/
+
     private CharacterController controller;
     //private Rigidbody rb;
 
     private Vector3 input = Vector3.zero;
-    private Vector3 velocity = Vector3.zero;
+    private Vector3 gravityVelocity = Vector3.zero;
 
     private float turnVelcoity = 0f;
     private bool followPlayer = false;
@@ -36,35 +36,17 @@ public class Player : MonoBehaviour
     private void Start()
     {
         controller = GetComponent<CharacterController>();
-        //rb = GetComponent<Rigidbody>();
-        //rb.freezeRotation = true;
     }
 
-    private void FixedUpdate()
-    {
-        //if (rb == null || cameraTransform == null)
-        //    return;
-        
+    private void Update()
+    {   
         if (controller == null || cameraTransform == null)
             return;
         
-        //isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
 
-        isGrounded = controller.isGrounded;
-
-        //if (isGrounded && velocity.y < 0)
-        //    velocity.y = 0;
-
-        /*if (isGrounded)
-        {
-            rb.useGravity = false;
-            rb.drag = hDrag;
-        }
-        else
-        {
-            rb.useGravity = true;
-            rb.drag = vDrag;
-        }*/
+        if (isGrounded)
+            gravityVelocity.y = 0f;
 
         if (input.magnitude >= 0.1f) { 
             float targetAngle = Mathf.Atan2(input.x, input.z) * Mathf.Rad2Deg + cameraTransform.eulerAngles.y;
@@ -72,12 +54,14 @@ public class Player : MonoBehaviour
             transform.rotation = Quaternion.Euler(0.0f, angle, 0.0f);
 
             Vector3 dir = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
-            //rb.AddForce(speed * Time.fixedDeltaTime * dir, ForceMode.VelocityChange);
-            controller.Move(speed * Time.fixedDeltaTime * dir.normalized);
+            Vector3 velocity = speed * dir.normalized;
+            velocity.x /= 1f + drag.x * Time.deltaTime;
+            velocity.z /= 1f + drag.z * Time.deltaTime;
+            controller.Move(velocity * Time.deltaTime);
         }
 
-        velocity.y += gravity * Time.deltaTime;
-        controller.Move(velocity * Time.deltaTime);
+        gravityVelocity.y += gravity * Time.deltaTime;
+        controller.Move(gravityVelocity * Time.deltaTime);
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -110,9 +94,8 @@ public class Player : MonoBehaviour
     {
         if (context.performed && isGrounded) 
         {
-            float jump = Mathf.Sqrt(jumpForce * -2 * gravity);
-            velocity.y += jump * Time.fixedDeltaTime;
-            //rb.AddForce(jump * Vector3.up, ForceMode.Impulse);
+            float jump = Mathf.Sqrt(jumpHeight * -2 * gravity);
+            gravityVelocity.y += jump;
         }
     }
 }

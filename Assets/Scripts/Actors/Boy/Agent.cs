@@ -101,7 +101,7 @@ public class Agent : MonoBehaviour
             float targetAngle = transform.eulerAngles.y - offset + i * step;
             Vector3 dir = new(Mathf.Sin(targetAngle * Mathf.Deg2Rad), 0f, Mathf.Cos(targetAngle * Mathf.Deg2Rad));
             
-            if (Physics.Raycast(transform.position, dir, distance, mask))
+            if (Physics.Raycast(transform.position, dir, distance, mask, QueryTriggerInteraction.Ignore))
                 return true;
         }
         
