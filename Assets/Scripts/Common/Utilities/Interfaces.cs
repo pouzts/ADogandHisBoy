@@ -8,3 +8,12 @@ public interface IInteractable
     void Deactivate();
     bool IsActive();
 }
+
+//
+public interface ICommand
+{ 
+    void Execute();
+    void Undo();
+}
+
+//public interface I
