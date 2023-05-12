@@ -9,11 +9,9 @@ public interface IInteractable
     bool IsActive();
 }
 
-//
+// This is for the Command Pattern
 public interface ICommand
 { 
     void Execute();
     void Undo();
 }
-
-//public interface I
