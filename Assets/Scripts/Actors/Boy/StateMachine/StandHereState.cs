@@ -28,7 +28,7 @@ public class StandHereState : State
 
         if (Vector3.Distance(Agent.transform.position, positionTo) < 0.1f)
         {
-            Agent.StandHere.value = false;        
+            Agent.StateMachine.SetState(Agent.StateMachine.GetState("IdleState"));        
         }
     }
 }

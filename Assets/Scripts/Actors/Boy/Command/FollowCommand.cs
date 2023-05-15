@@ -8,9 +8,4 @@ public class FollowCommand : MonoBehaviour, ICommand
     {
 
     }
-
-    public void Undo()
-    {
-
-    }
 }

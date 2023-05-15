@@ -8,9 +8,4 @@ public class StandCommand : MonoBehaviour, ICommand
     {
         
     }
-
-    public void Undo()
-    {
-        
-    }
 }

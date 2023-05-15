@@ -8,7 +8,6 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     [SerializeField] private Transform cameraTransform;
-    [SerializeField] private Agent agent;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float smoothTurnTime = 0.1f;
     
@@ -30,8 +29,6 @@ public class Player : MonoBehaviour
     private Vector3 velocity = Vector3.zero;
 
     private float turnVelcoity = 0f;
-    private bool followPlayer = false;
-
     private bool isGrounded = false;
 
     private float maxSpeed = 0f;
@@ -87,21 +84,14 @@ public class Player : MonoBehaviour
 
     public void OnFollowPlayer(InputAction.CallbackContext context) 
     {
-        if (context.performed)
-        {
-            followPlayer = !followPlayer;
-            agent.FollowPlayer.value = followPlayer;
-            agent.StandHere.value = false;
-        }
+        
     }
 
     public void OnStandHere(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            agent.StandHere.value = true;
-            followPlayer = false;
-            agent.FollowPlayer.value = false;
+            
         }
     }
 

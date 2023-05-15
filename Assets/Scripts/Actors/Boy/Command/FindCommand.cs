@@ -8,9 +8,4 @@ public class FindCommand : MonoBehaviour, ICommand
     {
         
     }
-
-    public void Undo()
-    {
-        
-    }
 }

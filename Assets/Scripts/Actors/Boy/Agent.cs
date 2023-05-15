@@ -26,11 +26,11 @@ public class Agent : MonoBehaviour
 
     public bool PlayerInSite { get; set; } = false;
 
-    public RefValue<bool> FollowPlayer { get; set; } = new();
-    public RefValue<bool> StandHere { get; set; } = new();
-    public RefValue<bool> FindInteract { get; set; } = new();
-    public RefValue<bool> InteractInSite { get; set; } = new();
-    public RefValue<bool> Interacted { get; set; } = new();
+    private readonly RefValue<bool> followPlayer = new();
+    private readonly RefValue<bool> standHere = new();
+    private readonly RefValue<bool> findInteract = new();
+    private readonly RefValue<bool> interactInSite = new();
+    private readonly RefValue<bool> interacted = new();
     
     private readonly RefValue<float> distanceFromPlayer = new();
     private readonly RefValue<bool> hasInteractive = new();
@@ -48,27 +48,27 @@ public class Agent : MonoBehaviour
 
         // Current -> Idle
         StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<float>(distanceFromPlayer, Predicate.Less, minDistanceFromPlayer)), StateMachine.GetState("IdleState"));
-        StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
-        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(FindInteract, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
-        StateMachine.AddTransition(StateMachine.GetState("InteractState"), new Transition(new Condition<bool>(Interacted, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
+        StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(standHere, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
+        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(findInteract, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
+        StateMachine.AddTransition(StateMachine.GetState("InteractState"), new Transition(new Condition<bool>(interacted, Predicate.Equal, false)), StateMachine.GetState("IdleState"));
 
         // Current -> Follow
-        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<float>(distanceFromPlayer, Predicate.GreaterOrEqual, minDistanceFromPlayer), new Condition<bool>(FollowPlayer, Predicate.Equal, true)), StateMachine.GetState("FollowState"));
-        StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(FollowPlayer, Predicate.Equal, true)), StateMachine.GetState("FollowState"));
-        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(FollowPlayer, Predicate.Equal, true)), StateMachine.GetState("FollowState"));
+        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<float>(distanceFromPlayer, Predicate.GreaterOrEqual, minDistanceFromPlayer), new Condition<bool>(followPlayer, Predicate.Equal, true)), StateMachine.GetState("FollowState"));
+        StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(followPlayer, Predicate.Equal, true)), StateMachine.GetState("FollowState"));
+        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(followPlayer, Predicate.Equal, true)), StateMachine.GetState("FollowState"));
 
         // Current -> Stand
-        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
-        StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
-        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(StandHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
+        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<bool>(standHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
+        StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<bool>(standHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
+        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(standHere, Predicate.Equal, true)), StateMachine.GetState("StandHereState"));
 
         // Current -> Find
-        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<bool>(FindInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
-        StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<bool>(FindInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
-        StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(FindInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
+        StateMachine.AddTransition(StateMachine.GetState("IdleState"), new Transition(new Condition<bool>(findInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
+        StateMachine.AddTransition(StateMachine.GetState("FollowState"), new Transition(new Condition<bool>(findInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
+        StateMachine.AddTransition(StateMachine.GetState("StandHereState"), new Transition(new Condition<bool>(findInteract, Predicate.Equal, true), new Condition<bool>(hasInteractive, Predicate.Equal, true)), StateMachine.GetState("FindState"));
 
         // Find -> Interact
-        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(Interacted, Predicate.Equal, false), new Condition<bool>(InteractInSite, Predicate.Equal, true)), StateMachine.GetState("InteractState"));
+        StateMachine.AddTransition(StateMachine.GetState("FindState"), new Transition(new Condition<bool>(interacted, Predicate.Equal, false), new Condition<bool>(interactInSite, Predicate.Equal, true)), StateMachine.GetState("InteractState"));
         
         StateMachine.SetState(StateMachine.GetState("IdleState"));
     }
@@ -76,7 +76,7 @@ public class Agent : MonoBehaviour
     private void FixedUpdate()
     {
         PlayerInSite = FindObjectRaycast(numOfCasts, playerMask, playerViewAngle, playerLookDistance);
-        InteractInSite.value = FindObjectRaycast(numOfCasts, interactMask, interactViewAngle, interactLookDistance);
+        interactInSite.value = FindObjectRaycast(numOfCasts, interactMask, interactViewAngle, interactLookDistance);
     }
 
     private void Update()

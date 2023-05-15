@@ -11,12 +11,10 @@ public class InteractState : State
     public override void OnEnter()
     {
         Agent.Interactable.GetComponent<IInteractable>().Activate();
-        Agent.Interacted.value = true;
     }
 
     public override void OnExit()
     {
-        Agent.Interacted.value = false;   
     }
 
     public override void OnUpdate()
