@@ -507,12 +507,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraTransform: {fileID: 291978238}
-  agent: {fileID: 100450746}
   speed: 10
   smoothTurnTime: 0.1
   gravity: -9.8
   jumpHeight: 5
-  drag: {x: 2, y: 0, z: 2}
+  damping: 7
+  velocity: {x: 0, y: 0, z: 0}
   groundCheck: {fileID: 711387231}
   groundLayer:
     serializedVersion: 2
