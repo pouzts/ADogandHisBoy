@@ -2,17 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StandCommand : MonoBehaviour, ICommand
+public class StandCommand : ICommand
 {
     private readonly Agent agent;
 
-    private StandCommand(Agent agent)
-    {
+    public StandCommand(Agent agent)
+    { 
         this.agent = agent;
     }
 
     public void Execute()
     {
-        agent.FollowPlayer();
+        agent.StandHere();
     }
 }

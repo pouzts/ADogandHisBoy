@@ -91,8 +91,24 @@ public class Agent : MonoBehaviour
     }
 
     public void FollowPlayer()
-    { 
-        
+    {
+        followPlayer.value = !followPlayer.value;
+        standHere.value = false;
+        findInteract.value = false;
+    }
+
+    public void FindInteractable()
+    {
+        findInteract.value = !findInteract.value;
+        followPlayer.value = false;
+        standHere.value = false;
+    }
+
+    public void StandHere()
+    {
+        standHere.value = !standHere.value;
+        followPlayer.value = false;
+        findInteract.value = false;
     }
 
     private bool FindObjectRaycast(int numOfCasts, LayerMask mask, float angle = 45f, float distance = Mathf.Infinity)
@@ -111,12 +127,5 @@ public class Agent : MonoBehaviour
         }
         
         return false;
-    }
-
-    private void ResetCommands()
-    {
-        followPlayer.value = false;
-        standHere.value = false;
-        findInteract.value = false;
     }
 }

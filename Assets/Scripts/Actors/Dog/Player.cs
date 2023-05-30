@@ -13,7 +13,6 @@ public class Player : MonoBehaviour
     [SerializeField] private float speed = 10f;
 
     [Header("Physics")]
-    //[SerializeField] private float gravity = -9.8f;
     [SerializeField] private float jumpHeight = 5f;
     [SerializeField] private float damping = 0.5f;
 
@@ -22,31 +21,34 @@ public class Player : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private float groundRadius = 0.25f;
 
-    //private CharacterController controller;
     private Rigidbody rb;
+    private Agent agent;
 
     private Vector3 velocity = Vector3.zero;
     private Vector3 input = Vector3.zero;
     
     private bool isGrounded = false;
 
+    private readonly float smoothTurnTime = 0.05f;
     private float turnSpeed = 0f;
-    private float smoothTurnTime = 0.05f;
+
+    private ICommand follow;
+    private ICommand stand;
+    private ICommand find;
 
     private void Start()
     {
-        //controller = GetComponent<CharacterController>();
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
+        agent = FindObjectOfType<Agent>();
+        
+        follow = new FollowCommand(agent);
+        stand = new StandCommand(agent);
+        find = new FindCommand(agent);
     }
 
     private void FixedUpdate()
     {
-        //isGrounded = controller.isGrounded;
-
-        //if (controller == null || cameraTransform == null)
-        //return;
-
         isGrounded = Physics.CheckSphere(groundCheck.position, groundRadius, groundLayer);
 
         if (rb == null || cameraTransform == null)
@@ -66,16 +68,12 @@ public class Player : MonoBehaviour
             velocity.x *= 1.0f / (1.0f + (damping * Time.fixedDeltaTime));
             velocity.z *= 1.0f / (1.0f + (damping * Time.fixedDeltaTime));
         }
-
-        //if (!isGrounded)
-        //    velocity.y += gravity * Time.fixedDeltaTime;
         
         if (isGrounded)
             rb.useGravity = false;
         else
             rb.useGravity = true;
 
-        //controller.Move(velocity * Time.deltaTime);
         rb.position += velocity * Time.fixedDeltaTime;
     }
 
@@ -99,7 +97,7 @@ public class Player : MonoBehaviour
     {
         if (context.performed)
         {
-
+            follow.Execute();
         }
     }
 
@@ -107,7 +105,7 @@ public class Player : MonoBehaviour
     {
         if (context.performed)
         {
-            
+            stand.Execute();
         }
     }
 

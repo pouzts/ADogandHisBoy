@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FindCommand : MonoBehaviour
+public class FindCommand : ICommand
 {
     private readonly Agent agent;
 
-    private FindCommand(Agent agent)
-    { 
+    public FindCommand(Agent agent)
+    {
         this.agent = agent;
     }
 

@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FollowCommand : MonoBehaviour, ICommand
+public class FollowCommand : ICommand
 {
     private readonly Agent agent;
 
-    private FollowCommand(Agent agent)
+    public FollowCommand(Agent agent)
     {
         this.agent = agent;
     }
