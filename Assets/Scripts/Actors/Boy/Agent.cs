@@ -90,6 +90,11 @@ public class Agent : MonoBehaviour
         StateMachine.OnUpdate();
     }
 
+    public void FollowPlayer()
+    { 
+        
+    }
+
     private bool FindObjectRaycast(int numOfCasts, LayerMask mask, float angle = 45f, float distance = Mathf.Infinity)
     {
         // Code for Raycast used modified code from ChatGPT
@@ -106,5 +111,12 @@ public class Agent : MonoBehaviour
         }
         
         return false;
+    }
+
+    private void ResetCommands()
+    {
+        followPlayer.value = false;
+        standHere.value = false;
+        findInteract.value = false;
     }
 }
